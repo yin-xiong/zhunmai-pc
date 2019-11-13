@@ -33,8 +33,8 @@
                                         :key="item"
                                 >
                                     <div>
-                                        <el-link href="/">致准买网所有的买家1</el-link>
-                                        <el-link href="/">致准买网所有的买家2</el-link>
+                                        <el-link href="/">致准买网所有的买家111111111111</el-link>
+                                        <el-link href="/">致准买网所有的买家22222222222222222</el-link>
                                     </div>
                                 </el-carousel-item>
                             </el-carousel>
