@@ -33,8 +33,13 @@
                                         :key="item"
                                 >
                                     <div>
+<<<<<<< HEAD
                                         <el-link href="/">致准买网所有的买家111111111111</el-link>
                                         <el-link href="/">致准买网所有的买家22222222222222222</el-link>
+=======
+                                        <el-link href="/">致准买网所有的买家11111111</el-link>
+                                        <el-link href="/">致准买网所有的买家222222222</el-link>
+>>>>>>> zhongdan_dev
                                     </div>
                                 </el-carousel-item>
                             </el-carousel>
@@ -88,7 +93,7 @@
             overflow: hidden;
             top: 0;
             left: 0;
-            right: 0;   
+            right: 0;
             bottom: 0;
             margin:auto;
             box-sizing: border-box;
