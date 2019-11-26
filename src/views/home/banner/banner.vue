@@ -14,47 +14,29 @@
                 <el-image :src="tradImg" fit="cover"></el-image>
                 <div class="tradingInfo">
                     <div class="tradingInfoButton flex">
-                        <el-button type="info" round>登录</el-button>
-                        <el-button round>注册</el-button>
+                        <el-button type="info" round @click="login">登录</el-button>
+                        <el-button round @click="register">注册</el-button>
                     </div>
                     <div class="websiteInfo">
-                        <h2>网站公告</h2>
-                        <div class="overflow">
-                            <el-carousel
-                                    height="200px"
-                                    :interval="3000"
-                                    arrow="never"
-                                    indicator-position="none"
-                                    direction="vertical"
-                                    :initial-index="0"
-                            >
-                                <el-carousel-item
-                                        v-for="item in 3"
-                                        :key="item"
-                                >
-                                    <div>
-<<<<<<< HEAD
-                                        <el-link href="/">致准买网所有的买家111111111111</el-link>
-                                        <el-link href="/">致准买网所有的买家22222222222222222</el-link>
-=======
-                                        <el-link href="/">致准买网所有的买家11111111</el-link>
-                                        <el-link href="/">致准买网所有的买家222222222</el-link>
->>>>>>> zhongdan_dev
-                                    </div>
-                                </el-carousel-item>
-                            </el-carousel>
-                        </div>
-
+                        <h2><router-link to="/notice">网站公告</router-link></h2>
+                        <roll></roll>
                     </div>
-
+                </div>
+                <div class="tradingOwn">
+                    <h2><i>自行交易</i>交易费低至2%</h2>
+                    <el-button round>未登录，前往登录</el-button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import roll from '../../../components/rolling'
     export default {
         name:"banner",
+        components:{
+            roll
+        },
         data(){
             return{
                 bannerList:[
@@ -65,7 +47,18 @@
                 ],
                 tradImg:require("@/assets/image/icon/trad.png"), //交易保证的顶部图片
             }
+        },
+        methods:{
+            // 跳往登录
+            login(){
+                this.$router.push({path:'/login'})
+            },
+            // 跳往注册
+            register(){
+                this.$router.push({path:'/register'})
+            }
         }
+
     }
 </script>
 <style lang="less" type="text/less">
@@ -123,13 +116,35 @@
                             font-size: 0.16rem;
                             margin-top: .1rem;
                         }
-                        div{
-                            width: 100%;
-                            height: 200px;
+
+                    }
+
+                }
+                .tradingOwn{
+                    box-sizing: border-box;
+                    margin: 0.1rem .2rem;
+                    h2{
+                        font-size: 0.12rem;
+                        color: #999;
+                        i{
+                            font-size: 0.16rem;
+                            margin-right: 0.05rem;
+                            color: #ED3048;
                         }
+
+                    }
+                    .el-button{
+                        width: 100%;
+                        height: .26rem;
+                        background-color: #ED3048;
+                        color: #fff;
+                        padding: 0;
+                        font-size: 0.12rem;
+                        margin-top: .05rem;
                     }
                 }
             }
         }
     }
+
 </style>

@@ -14,13 +14,16 @@ body, div, ul, li, ol, h1, h2, h3, h4, h5, h6, input, textarea, select, p, dl, d
 }
 body {
   width: 100%;
+  min-width: 1200px;
   height: 100%;
+  min-height: 768px;
   background-color: #f4f7f9;
   font-size: 0.16rem;
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   color: #333;
   letter-spacing: 1px;
   line-height: 1.5;
+  user-select: none;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
@@ -89,7 +92,13 @@ a {
   text-decoration: none;
   color: #333;
 }
-
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
 .one-txt-cut {
   overflow: hidden;
   white-space: nowrap;
@@ -114,6 +123,9 @@ a {
 
 .db {
   display: block !important;
+}
+.dib{
+  display: inline-block;
 }
 
 .after {
@@ -200,6 +212,14 @@ a {
   width: 100%;
   height: 100%;
 }
+
+
+::-webkit-scrollbar{
+  display:none;
+}
+
+
+
 .nav-logo{
   width: 1.8rem;
 }
@@ -266,4 +286,41 @@ a {
     -webkit-transform: skew(0deg);
     transform: skew(0deg)
   }
+}
+.websiteTitle{
+  margin-bottom: .1rem;
+}
+.websiteTitle h2{
+  height: 100%;
+  font-weight: normal;
+  font-size: .14rem;
+  color: #D2D2D2;
+  display: flex;
+  align-items: center;
+}
+.websiteTitle h2 i{
+  margin-right: .06rem;
+  font-size: 0;
+}
+.websiteTitle a{
+  position: relative;
+  border-radius: .15rem;
+  border: 1px solid #E0E0E0;
+  font-size: .14rem;
+  color: #999;
+  padding: 2px 12px;
+}
+.websiteTitle a i{
+  font-size: .12rem;
+}
+ .checkedAgreed .el-checkbox__input.is-checked+.el-checkbox__label{
+  color: #FF5D24;
+}
+.checkedAgreed .el-checkbox__input.is-checked .el-checkbox__inner,
+.checkedAgreed .el-checkbox__input.is-indeterminate .el-checkbox__inner {
+  background-color: #FF5D24;
+  border-color: #FF5D24;
+}
+.el-input.is-active .el-input__inner, .el-input__inner:focus{
+  border-color: #FF5D24;
 }

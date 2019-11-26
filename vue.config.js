@@ -27,12 +27,12 @@ module.exports = {
         https: false,
         hotOnly: false,
         proxy: {
-            '/admin': {
+            '/home': {
                 target: 'http://zhunmaics.yujinhudong.cn',
                 ws: true,
                 changeOrigin: true,
                 pathRewrite: {
-                    '^/admin': '/admin'
+                    '^/home': '/home'
                 }
             },
         },

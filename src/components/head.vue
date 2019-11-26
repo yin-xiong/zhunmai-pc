@@ -2,7 +2,7 @@
     <div class="headCont">
         <div class="w1200 flex">
             <div class="nav-logo">
-                <router-link to="">
+                <router-link to="/">
                     <el-image :src="src"></el-image>
                 </router-link>
             </div>
@@ -36,7 +36,7 @@
         name:'headCont',
         data(){
             return{
-                src:require('../assets/image/icon/logo.png'), // logo图片
+                src:require('@/assets/image/icon/logo.png'), // logo图片
                 searchCont:'',// 搜索内容
             }
         }
