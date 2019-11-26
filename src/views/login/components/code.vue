@@ -106,7 +106,11 @@
             },
             drawLine(ctx) {
                 // 绘制干扰线
+<<<<<<< HEAD
                 for (let i = 0; i < 8; i++) {
+=======
+                for (let i = 0; i < 2; i++) {
+>>>>>>> yinxiong_dev
                     ctx.strokeStyle = this.randomColor(
                         this.lineColorMin,
                         this.lineColorMax

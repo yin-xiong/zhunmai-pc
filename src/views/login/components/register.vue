@@ -18,7 +18,11 @@
                 </el-form-item>
 
                 <el-form-item prop="phone">
+<<<<<<< HEAD
                     <el-input v-model="ruleForm.phone" placeholder="输入手机号">
+=======
+                    <el-input v-model="ruleForm.phone" maxlength="11" placeholder="输入手机号">
+>>>>>>> yinxiong_dev
                         <i slot="prefix" class="el-input__icon el-icon-mobile-phone"></i>
                     </el-input>
                 </el-form-item>
@@ -60,7 +64,11 @@
                 </div>
 
                 <div class="tac submint-btn">
+<<<<<<< HEAD
                     <el-button>登录</el-button>
+=======
+                    <el-button @click="register('ruleForm')">注册</el-button>
+>>>>>>> yinxiong_dev
                     <p>已有账号？<el-link href="/login" :underline="false">去登录</el-link></p>
                 </div>
             </el-form>
@@ -95,10 +103,18 @@
                 rules: {
                     userName:[
                         { required: true, message: '请输入姓名', trigger: 'blur' },
+<<<<<<< HEAD
                         { min: 1, max: 5, message: '长度在 1 到 5 个字符', trigger: 'blur' }
                     ],
                     phone:[
                         { required: true, message: '请输入手机', trigger: 'blur' },
+=======
+                        { min: 2, max: 4, message: '长度在 2 到 4 个字符', trigger: 'blur' }
+                    ],
+                    phone:[
+                        { required: true, message: '请输入手机', trigger: 'blur' },
+                        { pattern: /^1[3456789]\d{9}$/, min:11,max: 11, message: '请输入正确的手机号码', trigger: 'blur' }
+>>>>>>> yinxiong_dev
                     ],
                     imgCode:[
                         { required: true, message: '请输入验证码', trigger: 'blur' },
@@ -120,6 +136,7 @@
         },
         methods:{
             // 获取短信验证码倒计时
+<<<<<<< HEAD
             getCode(){
                 const TIME_COUNT = 60;
                 if (!this.timer) {
@@ -136,6 +153,81 @@
                     }, 1000);
                 }
             },
+=======
+            async getCode(){
+                var phone = this.ruleForm.phone,
+                    imgCode = this.ruleForm.imgCode,
+                    canvsCode = this.identifyCode;
+                console.log(phone+"--------------"+imgCode+"---------------"+canvsCode);
+                if(phone && imgCode !='' && imgCode == canvsCode){
+                    const TIME_COUNT = 10;
+                    if (!this.timer) {
+                        this.count = TIME_COUNT;
+                        this.flagCode = true;
+                        this.timer = setInterval(() => {
+                            if (this.count > 0 && this.count <= TIME_COUNT) {
+                                this.count --;
+                            } else {
+                                this.flagCode = false;
+                                clearInterval(this.timer);
+                                this.timer = null;
+                                this.refreshCode()
+                            }
+                        }, 1000);
+                    }
+                    var str = 'zm2019test';
+                    str += this.$md5(phone);
+                    var sign = this.$md5(str);
+                    console.log(str+"~~~~~~~~~~~~~~~~~~~~"+sign);
+                    var data = {
+                        phone,
+                        sign
+                    }
+                    const resp = await this.$api.send_msg(data)
+                    console.log(resp);
+                    if(resp.status == 200){
+                        this.showMsg(resp.msg,'success')
+                    }
+
+                }else{
+                    this.showMsg('请输入正确的验证码','error')
+                    return false
+                }
+            },
+            // 注册
+            register(ruleForm){
+                if(this.ruleForm.checkedLogin){
+                    this.$refs[ruleForm].validate(async (valid) => {
+                        if (valid) {
+                            alert('submit!');
+                            var data = {
+                                name:this.ruleForm.userName,
+                                phone:this.ruleForm.phone,
+                                code:this.ruleForm.msgCode,
+                                password:this.ruleForm.passwordSecond,
+                            }
+                            const resp = await this.$api.register(data)
+                            console.log(resp);
+                            if(resp.status == 200){
+                                this.showMsg(resp.msg,'success')
+                                this.$router.push({path:'/login'})
+                            }else{
+                                this.showMsg(resp.msg,'error')
+                            }
+                        } else {
+                            this.showMsg('请输入正确的内容','error')
+                            return false;
+                        }
+                    });
+                }else {
+                    this.showMsg('请同意准买网《服务协议》','error')
+                    return false;
+                }
+
+            },
+
+
+>>>>>>> yinxiong_dev
             // 生成随机数
             randomNum(min, max) {
                 return Math.floor(Math.random() * (max - min) + min)
@@ -152,7 +244,10 @@
                         this.randomNum(0, this.identifyCodes.length)
                         ]
                 }
+<<<<<<< HEAD
                 console.log(this.identifyCode)
+=======
+>>>>>>> yinxiong_dev
             }
         }
     }

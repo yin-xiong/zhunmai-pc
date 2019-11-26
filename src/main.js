@@ -22,6 +22,9 @@ import './assets/css/reset.css'
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
+import md5 from 'js-md5';
+Vue.prototype.$md5 = md5;
+
 axios.defaults.timeout = 5000
 // axios.defaults.baseURL='http://zhunmaics.yujinhudong.cn'
 
@@ -39,7 +42,7 @@ Vue.prototype.showMsg = function (str,type) {
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requireAuth)) { // 判断该路由是否需要登录权限
-    if (localStorage.username != undefined && localStorage.token !=undefined) { // 判断缓存里面是否有 userName  //在登录的时候设置它的值
+    if (sessionStorage.phone != undefined && sessionStorage.token !=undefined) { // 判断缓存里面是否有 userName  //在登录的时候设置它的值
       next();
     } else {
       next({

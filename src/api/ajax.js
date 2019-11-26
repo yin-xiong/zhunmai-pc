@@ -7,13 +7,13 @@ export default function ajax(url,data={},method='GET'){
     return new Promise((resolve,reject) =>{
         let promise;
 
-        if(localStorage.token && localStorage.userid){
-            let token = localStorage.token,
-                uid = localStorage.userid;
+        if(sessionStorage.token && sessionStorage.phone){
+            let token = sessionStorage.token,
+                phone = sessionStorage.phone;
             console.log(token);
             console.log(uid);
             axios.defaults.headers.common['token'] = token;
-            axios.defaults.headers.common['id'] = uid;
+            axios.defaults.headers.common['phone'] = phone;
         }
 
         showLoading();
@@ -29,7 +29,7 @@ export default function ajax(url,data={},method='GET'){
           if(response.data.status == 222){
               window.location.href="/login"
           }else{
-              resolve(response)
+              resolve(response.data)
           }
 
       })
