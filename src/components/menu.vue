@@ -2,7 +2,11 @@
     <div class="menu-list">
         <div class="w1200 flex">
 
-            <router-link v-for="(item,index) in list" :to="item.path" :class="active == index ? 'active': '' " @click.native="changeMenu(index)">
+            <router-link
+                    v-for="(item,index) in list"
+                    :to="item.path"
+                    :class="active == index ? 'active': '' "
+            >
                 <i v-if="item.icon" :class="item.icon"></i>
                 {{item.title}}
             </router-link>
@@ -22,19 +26,17 @@
                     {path:'/officialBooking',title:'官方代售'},
                     {path:'/news',title:'新闻动态'},
                     {path:'/aboutUs',title:'关于我们'},
-                    {path:'/',title:'个人中心'},
+                    {path:'/accountSet',title:'个人中心'},
                 ],
             }
         },
         methods:{
             changeMenu(index){
-                console.log(index);
                 this.active = index
             }
         },
         mounted(){
             this.active = this.$route.meta.index
-            console.log(this.active);
         },
     }
 </script>
@@ -51,6 +53,9 @@
                 color: #4c4c4c;
                 transition: all .4s;
                 &:hover{color: #FF5D24;}
+            }
+            :nth-child(4){
+                display: none;
             }
             a.active{
                 color: #FF5D24;

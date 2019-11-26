@@ -1,10 +1,12 @@
 <template>
-    <div class="aboutUs">
+    <div class="news">
         <headerTop></headerTop>
         <headCont></headCont>
         <menuList></menuList>
-        <div style="height: 7rem;">
-            我是关于我们首页，暂时没有内容
+        <pageBanner></pageBanner>
+        <pageTitle></pageTitle>
+        <div style="background-color: #fff;">
+            <aboutMain></aboutMain>
         </div>
         <footContent></footContent>
         <fixed></fixed>
@@ -14,13 +16,16 @@
     import headerTop from '../../components/top'
     import headCont from '../../components/head'
     import menuList from '../../components/menu'
+    import pageBanner from '../../components/pageBanner'
+    import pageTitle from '../../components/pageTitle'
+    import aboutMain from './components/aboutMain'
     import footContent from '../../components/footer'
     import fixed from '../../components/fix'
 
     export default {
-        name: 'aboutUs',
+        name: 'news',
         components:{
-            headerTop,headCont,menuList,footContent,fixed
+            headerTop,headCont,menuList,pageBanner,pageTitle,aboutMain,footContent,fixed
         },
 
     }

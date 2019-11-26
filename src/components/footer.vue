@@ -19,17 +19,17 @@
                         <div class="footer-menu">
                             <ul>
                                 <li>
-                                    <h2><router-link to="">帮助中心</router-link></h2>
+                                    <h2><router-link :to="{path:'/problems',query:{id:1}}">常见问题</router-link></h2>
                                     <ul>
-                                        <li><h3><router-link to="">什么是准买网?</router-link></h3></li>
-                                        <li><h3><router-link to="">域名中介</router-link></h3></li>
-                                        <li><h3><router-link to="">网站中介</router-link></h3></li>
-                                        <li><h3><router-link to="">公众号中介</router-link></h3></li>
-                                        <li><h3><router-link to="">网站地图</router-link></h3></li>
+                                        <li><h3><router-link to="">购买网站应该注意的问题有哪些？</router-link></h3></li>
+                                        <li><h3><router-link to="">网站出售后，网站卖家多久可以收到款项？</router-link></h3></li>
+                                        <li><h3><router-link to="">平台的支付方式有哪些？</router-link></h3></li>
+                                        <li><h3><router-link to="">网站出售信息发布后，多久可以进行交易？</router-link></h3></li>
+                                        <li><h3><router-link to="">百度权重是什么意思？</router-link></h3></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <h2><router-link to="">资费说明</router-link></h2>
+                                    <h2><router-link :to="{path:'/problems',query:{id:2}}">资费说明</router-link></h2>
                                     <ul>
                                         <li><h3><router-link to="">付款方式</router-link></h3></li>
                                         <li><h3><router-link to="">平台手续费</router-link></h3></li>
@@ -38,21 +38,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <h2><router-link to="">新闻动态</router-link></h2>
-                                    <ul>
-                                        <li><h3><router-link to="">行业新闻</router-link></h3></li>
-                                        <li><h3><router-link to="">公司动态</router-link></h3></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <h2><router-link to="">关于我们</router-link></h2>
-                                    <ul>
-                                        <li><h3><router-link to="">公司简介</router-link></h3></li>
-
-                                    </ul>
-                                </li>
-                                <li>
-                                    <h2><router-link to="">服务中心</router-link></h2>
+                                    <h2><router-link :to="{path:'/problems',query:{id:3}}">服务中心</router-link></h2>
                                     <ul>
                                         <li><h3><router-link to="">买家帮助</router-link></h3></li>
                                         <li><h3><router-link to="">卖家帮助</router-link></h3></li>
@@ -100,7 +86,7 @@
             .footer-top{
                 justify-content: space-between;
                 align-items: center;
-                padding-top: 70px;
+                padding-top: .6rem;
                 .footer-company-msg{
                     color: #333;
                     font-size: 0.14rem;
@@ -116,7 +102,7 @@
                         >li{
                             display: inline-block;
                             vertical-align: top;
-                            margin-left: 0.4rem;
+                            margin-left: 0.9rem;
                             &:first-child{
                                 margin-left: 0;
                             }

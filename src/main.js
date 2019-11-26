@@ -8,6 +8,9 @@ import VueAxios from 'vue-axios';
 Vue.use(VueAxios,axios);
 Vue.use(router);
 
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+Vue.use(VueAwesomeSwiper)
+
 import apis from './api/api'
 Vue.prototype.$api = apis
 

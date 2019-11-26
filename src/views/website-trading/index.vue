@@ -3,8 +3,13 @@
         <headerTop></headerTop>
         <headCont></headCont>
         <menuList></menuList>
-        <div style="height: 7rem;">
-            我是网站交易首页，暂时没有内容
+        <div style="height: auto;">
+            <pageTitle></pageTitle>
+            <selectConditions></selectConditions>
+            <div class="w1200">
+                <sorting></sorting>
+                <list></list>
+            </div>
         </div>
         <footContent></footContent>
         <fixed></fixed>
@@ -14,13 +19,17 @@
     import headerTop from '../../components/top'
     import headCont from '../../components/head'
     import menuList from '../../components/menu'
+    import pageTitle from '../../components/pageTitle'
+    import sorting from '../../components/sorting'
+    import list from '../../components/list'
+    import selectConditions from './select-conditions/selectConditions'
     import footContent from '../../components/footer'
     import fixed from '../../components/fix'
 
     export default {
         name: 'websiteTrading',
         components:{
-            headerTop,headCont,menuList,footContent,fixed
+            headerTop,headCont,menuList,pageTitle,selectConditions,sorting,list,footContent,fixed
         },
 
     }
