@@ -30,7 +30,7 @@
                     </div>
                     <div class="flex">
                         <div class="checkedAgreed"><el-checkbox v-model="ruleForm.checkedLogin">自动登录</el-checkbox></div>
-                        <div><el-link :underline="false">免费注册》</el-link></div>
+                        <div><el-link href="/register" :underline="false">免费注册》</el-link></div>
                     </div>
                     <div class="tac submint-btn">
                         <el-button @click="toLogin">登录</el-button>

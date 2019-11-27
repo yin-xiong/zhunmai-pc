@@ -13,7 +13,7 @@
             <!--   我要买站---委托交易     -->
             <buyWebsite></buyWebsite>
             <!--   交易快报     -->
-            <trading></trading>
+<!--            <trading></trading>-->
             <!--   精选推荐----热门网站     -->
             <hotWebsite></hotWebsite>
             <!--   常见问题     -->

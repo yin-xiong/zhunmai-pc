@@ -13,9 +13,13 @@
             <div class="fr overflow">
                 <el-image :src="tradImg" fit="cover"></el-image>
                 <div class="tradingInfo">
-                    <div class="tradingInfoButton flex">
+
+                    <div class="tradingInfoButton flex" v-if="flag">
                         <el-button type="info" round @click="login">登录</el-button>
                         <el-button round @click="register">注册</el-button>
+                    </div>
+                    <div class="tradingInfoButton flex" style="justify-content: flex-start" v-if="!flag">
+                        <el-image :src="userImg"></el-image>{{uname}}, 欢迎您
                     </div>
                     <div class="websiteInfo">
                         <h2><router-link to="/notice">网站公告</router-link></h2>
@@ -24,7 +28,10 @@
                 </div>
                 <div class="tradingOwn">
                     <h2><i>自行交易</i>交易费低至2%</h2>
-                    <el-button round>未登录，前往登录</el-button>
+
+                    <el-button v-if="flag" round>未登录，前往登录</el-button>
+                    <el-button v-if="!flag" round>前往个人中心发布</el-button>
+
                 </div>
             </div>
         </div>
@@ -46,6 +53,10 @@
                     {url:require('../../../assets/image/banner/banner2.jpg')}
                 ],
                 tradImg:require("@/assets/image/icon/trad.png"), //交易保证的顶部图片
+
+                flag:true,
+                uname:'xxxxx',
+                userImg:require('@/assets/image/icon/user.png'),
             }
         },
         methods:{
@@ -56,8 +67,18 @@
             // 跳往注册
             register(){
                 this.$router.push({path:'/register'})
+            },
+
+        },
+        mounted(){
+            let phone = sessionStorage.getItem('phone')
+            if(phone){
+                this.flag = false
+                this.uname = phone
             }
-        }
+
+        },
+
 
     }
 </script>
@@ -97,12 +118,18 @@
                 background-color: #fff;
                 .tradingInfo{
                     box-sizing: border-box;
-                    padding: .1rem 0.2rem;
+                    padding: 0 0.2rem .1rem .2rem;
                     border-bottom: 1px solid #E0E0E0;
                     .tradingInfoButton{
+                        height: .4rem;
                         justify-content: space-between;
                         align-items: center;
                         flex-wrap: nowrap;
+                        font-size: 0.12rem;
+                        img{
+                            max-width: .4rem;
+                            padding-right: .1rem;
+                        }
                         .el-button{
                             height: 0.26rem;
                             line-height: 0.26rem;
@@ -140,7 +167,7 @@
                         color: #fff;
                         padding: 0;
                         font-size: 0.12rem;
-                        margin-top: .05rem;
+                        margin-top: .02rem;
                     }
                 }
             }
