@@ -11,7 +11,7 @@ export default function ajax(url,data={},method='GET'){
             let token = sessionStorage.token,
                 phone = sessionStorage.phone;
             console.log(token);
-            console.log(uid);
+            console.log(phone);
             axios.defaults.headers.common['token'] = token;
             axios.defaults.headers.common['phone'] = phone;
         }
