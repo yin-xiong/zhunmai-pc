@@ -33,11 +33,7 @@
                         <div><el-link :underline="false">免费注册》</el-link></div>
                     </div>
                     <div class="tac submint-btn">
-<<<<<<< HEAD
-                        <el-button>登录</el-button>
-=======
                         <el-button @click="toLogin">登录</el-button>
->>>>>>> yinxiong_dev
                         <p><el-link href="/findpwd" :underline="false">忘记密码？</el-link></p>
                     </div>
                 </div>
@@ -58,10 +54,8 @@
         data(){
             return{
                 src:require('@/assets/image/icon/login_picture.jpg'),
-<<<<<<< HEAD
-=======
+
                 token:'',
->>>>>>> yinxiong_dev
                 ruleForm: {
                     phone:'',
                     password:'',
@@ -70,19 +64,13 @@
                 rules: {
                     phone:[
                         { required: true, message: '请输入手机号', trigger: 'blur' },
-<<<<<<< HEAD
-                        { min: 1, max: 5, message: '长度在 1 到 8 个字符', trigger: 'blur' }
-=======
                         { min: 11, max: 11, message: '长度11 个字符', trigger: 'blur' }
->>>>>>> yinxiong_dev
                     ],
                     password:[
                         { required: true, message: '请输入密码', trigger: 'blur' },
                     ]
                 }
             }
-<<<<<<< HEAD
-=======
         },
         methods:{
 
@@ -106,7 +94,6 @@
                     sessionStorage.setItem('phone',this.ruleForm.phone)
                 }
             }
->>>>>>> yinxiong_dev
         }
     }
 </script>
