@@ -16,8 +16,8 @@
                         </p>
                     </div>
                 </div>
-                <sorting></sorting>
-                <list></list>
+                <sorting :sortings="sortings" @sortData="setData"></sorting>
+                <list :lists="lists"></list>
             </div>
 
         </div>
@@ -44,7 +44,26 @@
                 src1:require('@/assets/image/icon/daishou.png'),
                 src2:require('@/assets/image/icon/webtitle.png'),
                 src3:require('@/assets/image/icon/qudaishou.png'),
+                sortings:[
+                    {index:0,id:1,title:'综合排序',},
+                    {index:1,id:1,title:'价格排序',},
+                    {index:2,id:1,title:'权重排序',},
+                ],
+                lists:[],// 列表数据
             }
+        },
+        methods:{
+            async getOfficialwebsiteInfo(){
+                let response = await this.$api.officialwebsite()
+                console.log(response);
+                this.lists = response.list
+            },
+            setData(data){
+                this.lists = data
+            }
+        },
+        mounted(){
+            this.getOfficialwebsiteInfo()
         }
 
     }

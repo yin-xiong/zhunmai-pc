@@ -6,9 +6,9 @@
                 @mouseenter="Stop()"
                 @mouseleave="Up()"
         >
-            <el-link v-for="(item,index) in list" target="_blank" :href="item.src">
+            <el-link v-for="(item,index) in list" target="_blank" :href=" '/notice?id='+ item.id">
                 <i class="iconfont icon-triangle-down"></i>
-                {{item.name}}
+                {{item.title}}
             </el-link>
         </div>
     </div>
@@ -18,14 +18,7 @@
         name:'rolling',
         data(){
             return{
-                list: [
-                    { name: '城轨采购网',src:'http://www.railunique.com'},
-                    { name: '天津地铁电子采购平台',src:'http://www.railunique.com' },
-                    { name: '南昌地铁',src:'http://www.railunique.com' },
-                    { name: '南昌地铁',src:'http://www.railunique.com' },
-                    { name: '兰州地铁招标信息',src:'http://www.railunique.com' },
-                    { name: '西安公共资源交易中心',src:'http://www.railunique.com' },
-                ],
+                list: [],
                 activeIndex: 0,
                 intnum: undefined,
             }
@@ -48,14 +41,22 @@
                     }
                 }, 1200);
             },
-
             Stop(){
                 clearInterval(this.intnum);
             },
             Up(){
                 this.ScrollUp();
-            }
+            },
+
+            async getInfo(){
+                let response = await this.$api.ads()
+                console.log(response);
+                this.list = response.ads
+            },
         },
+        mounted(){
+            this.getInfo()
+        }
     }
 </script>
 <style type="text/less" lang="less" scoped>

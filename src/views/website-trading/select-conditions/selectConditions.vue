@@ -2,33 +2,41 @@
     <div class="selectConditions">
         <div class="selectConditions-list w1200">
             <div class="flex">
-                <span class="choseTitle">您已选择：</span>
+                <span v-if="selectConditionsAll.length > 0" class="choseTitle">您已选择：</span>
+                <span v-else class="choseTitle">您未选择</span>
                 <div class="selectConditionsAll">
-                    <button>关键字：电影 <i class="iconfont icon-guanbi"></i></button>
-                    <button>门户网站 <i class="iconfont icon-guanbi"></i></button>
-                    <button>BDR1 <i class="iconfont icon-guanbi"></i></button>
-                    <button>1-5万 <i class="iconfont icon-guanbi"></i></button>
-                    <button>5-5万 <i class="iconfont icon-guanbi"></i></button>
+                    <button
+                            v-if="selectConditionsAll.length > 0"
+                            v-for="item in selectConditionsAll"
+                    >
+                        {{item.title}}
+                        <i class="iconfont icon-guanbi"></i>
+                    </button>
                 </div>
             </div>
             <div class="flex">
                 <span class="choseTitle">选择分类：</span>
                 <div class="choseClassification flex">
-                    <el-button class="overflow notLimit">不限</el-button>
+                    <el-button style="margin: 0 0 0 12px;"
+                               :class=" isChecked == checkFlag1 ? 'overflow notLimit bgcFF5D24': 'overflow notLimit'"
+                               @click="checkedOrder"
+                    >
+                        不限
+                    </el-button>
                     <el-checkbox-group
                             class="dib"
                             v-model="seletChecked.selecIndustryClassification"
                             :min="0"
                             :max="3"
-                            @change="getSelectClassification"
                             :style="setHeight"
                     >
                         <el-checkbox-button
-                                v-for="(item,index) in fromData.IndustryClassification"
-                                :label="item.index"
-                                :key="item.index"
+                                v-for="(item,index) in websitestyle"
+                                @change="getSelectClassification(item.id,item.title)"
+                                :label="item.id"
+                                :key="item.id"
                         >
-                            {{item.name}}
+                            {{item.title}}
                         </el-checkbox-button>
                     </el-checkbox-group>
                     <el-button
@@ -43,25 +51,29 @@
             <div class="flex">
                 <span class="choseTitle">爱站权重：</span>
                 <div class="choseList choseClassification flex">
-                    <el-button class="overflow notLimit">不限</el-button>
-                    <el-radio-group v-model="seletChecked.selecLovestation">
-                        <el-radio-button v-for="(item,index) in fromData.lovestation" :label="item.title"></el-radio-button>
+<!--                    <el-button class="overflow notLimit">不限</el-button>-->
+                    <el-radio-group
+                            v-for="(item,index) in fromData.lovestation"
+                            v-model="seletChecked.selecLovestation"
+                            @change="loveSelect(item.index,item.title)"
+                    >
+                        <el-radio-button :label="item.title"></el-radio-button>
                     </el-radio-group>
                 </div>
             </div>
             <div class="flex">
                 <span class="choseTitle">站长权重：</span>
                 <div class="choseList choseClassification flex">
-                    <el-button class="overflow notLimit">不限</el-button>
-                    <el-radio-group v-model="seletChecked.selecStationmasters">
-                        <el-radio-button v-for="(item,index) in fromData.stationmasters" :label="item.title"></el-radio-button>
+<!--                    <el-button class="overflow notLimit">不限</el-button>-->
+                    <el-radio-group v-model="seletChecked.selecStationmasters" v-for="(item,index) in fromData.stationmasters">
+                        <el-radio-button :label="item.title"></el-radio-button>
                     </el-radio-group>
                 </div>
             </div>
             <div class="flex">
                 <span class="choseTitle">价  格：</span>
                 <div class="choseList choseClassification flex">
-                    <el-button class="overflow notLimit">不限</el-button>
+<!--                    <el-button class="overflow notLimit">不限</el-button>-->
                     <el-radio-group v-model="seletChecked.selecPrice">
                         <el-radio-button v-for="(item,index) in fromData.price" :label="item.title"></el-radio-button>
                     </el-radio-group>
@@ -70,7 +82,7 @@
             <div class="flex">
                 <span class="choseTitle">日IP数：</span>
                 <div class="choseList choseClassification flex">
-                    <el-button class="overflow notLimit">不限</el-button>
+<!--                    <el-button class="overflow notLimit">不限</el-button>-->
                     <el-radio-group v-model="seletChecked.selecDayip">
                         <el-radio-button v-for="(item,index) in fromData.dayip" :label="item.title"></el-radio-button>
                     </el-radio-group>
@@ -79,7 +91,7 @@
             <div class="flex">
                 <span class="choseTitle">百度收录：</span>
                 <div class="choseList choseClassification flex">
-                    <el-button class="overflow notLimit">不限</el-button>
+<!--                    <el-button class="overflow notLimit">不限</el-button>-->
                     <el-radio-group v-model="seletChecked.selecBaiduinclude">
                         <el-radio-button v-for="(item,index) in fromData.baiduinclude" :label="item.title"></el-radio-button>
                     </el-radio-group>
@@ -88,7 +100,7 @@
             <div class="flex">
                 <span class="choseTitle">网站收入：</span>
                 <div class="choseList choseClassification flex">
-                    <el-button class="overflow notLimit">不限</el-button>
+<!--                    <el-button class="overflow notLimit">不限</el-button>-->
                     <el-radio-group v-model="seletChecked.selecIncome">
                         <el-radio-button v-for="(item,index) in fromData.income" :label="item.title"></el-radio-button>
                     </el-radio-group>
@@ -122,15 +134,19 @@
                 Icondown:'el-icon-arrow-down', // 更多的icon--向下
                 Iconup:'el-icon-arrow-up', // 更多的icon--向上
                 setHeight:{ height:'50px', },// 选择分类的高度
+                isChecked:true, // 判断选择分类的class 添加 bgcFF5D24
+                checkFlag1:true,// 判断选择分类的class 添加 bgcFF5D24
+                choseOrderArr:[],
+                selectConditionsAll:[],
                 seletChecked:{
                     uncheckedClassification:[],// 不需要选择的---选择分类
                     selecIndustryClassification:[], // 已经选择过的--选择分类
-                    selecLovestation:[], // 已经选择过的--爱站权重
-                    selecStationmasters:[], // 已经选择过的--站长权重
-                    selecPrice:[], // 已经选择过的--价格
-                    selecDayip:[], // 已经选择过的--日IP数
-                    selecBaiduinclude:[], // 已经选择过的--百度收录
-                    selecIncome:[], // 已经选择过的--百度收录
+                    selecLovestation:'不限', // 已经选择过的--爱站权重
+                    selecStationmasters:'不限', // 已经选择过的--站长权重
+                    selecPrice:'不限', // 已经选择过的--价格
+                    selecDayip:'不限', // 已经选择过的--日IP数
+                    selecBaiduinclude:'不限', // 已经选择过的--百度收录
+                    selecIncome:'不限', // 已经选择过的--百度收录
                 },
                 fromData:{
                     IndustryClassification:[  //  选择分类
@@ -150,6 +166,7 @@
                         {index:14,name:'医疗健康'},
                     ],
                     lovestation:[ // 爱站权重分类
+                        {index:0,title:'不限'},
                         {index:1,title:'BDR0'},
                         {index:2,title:'BDR1'},
                         {index:3,title:'BDR2'},
@@ -157,6 +174,7 @@
                         {index:5,title:'BDR4'},
                     ],
                     stationmasters:[ // 站长权重
+                        {index:0,title:'不限'},
                         {index:1,title:'BDR0'},
                         {index:2,title:'BDR1'},
                         {index:3,title:'BDR2'},
@@ -166,6 +184,7 @@
                         {index:7,title:'BDR6'},
                     ],
                     price:[ // 价格
+                        {index:0,title:'不限'},
                         {index:1,title:'0-1000元'},
                         {index:2,title:'1000-5000元'},
                         {index:3,title:'5000-1万元'},
@@ -175,6 +194,7 @@
                         {index:7,title:'10万以上'},
                     ],
                     dayip:[ // 日IP数
+                        {index:0,title:'不限'},
                         {index:1,title:'0-100IP'},
                         {index:2,title:'100-500IP'},
                         {index:3,title:'500-1000IP'},
@@ -184,6 +204,7 @@
                         {index:7,title:'>1万IP'},
                     ],
                     baiduinclude:[ // 百度收录
+                        {index:0,title:'不限'},
                         {index:1,title:'0-1万'},
                         {index:2,title:'1-5万'},
                         {index:3,title:'5-10万'},
@@ -193,6 +214,7 @@
                         {index:7,title:'>500万'},
                     ],
                     income:[ // 网站收入
+                        {index:0,title:'不限'},
                         {index:1,title:'0-1000'},
                         {index:2,title:'1000-5000'},
                         {index:3,title:'5000-1万'},
@@ -203,9 +225,27 @@
                 }
             }
         },
+        props:{
+            websitestyle:Array
+        },
         methods:{
-            getSelectClassification(){
-                console.log(this.seletChecked.selecIndustryClassification);
+            // 不限选择分类
+            checkedOrder(){
+                this.isChecked = true
+                this.seletChecked.selecIndustryClassification = []
+            },
+            // 获取选择分类的类容
+            getSelectClassification(id,title){
+                console.log(id +"----" + title);
+                // console.log(this.seletChecked.selecIndustryClassification);
+                this.isChecked = false
+                var data= {
+                    id:id,
+                    title:title
+                }
+                this.choseOrderArr.push(data)
+                console.log(this.choseOrderArr);
+                this.selectConditionsAll.push(data)
             },
             // 点击更多展示全部
             choseMore(){
@@ -217,7 +257,14 @@
                     this.falg = true
                 }
 
+            },
+            // 爱站权重
+            loveSelect(index,title){
+                console.log(index + '~~~~~~'+title);
             }
+        },
+        mounted(){
+
         }
     }
 </script>
@@ -297,9 +344,11 @@
                     justify-content: flex-start;
                     white-space: nowrap;
                     align-items: baseline;
-                    .notLimit{
+                    .bgcFF5D24{
                         background-color: #FF5D24;
                         color: #fff;
+                    }
+                    .notLimit{
                         border-radius: 4px;
                         height: 0.27rem;
                         font-size: 0.14rem;

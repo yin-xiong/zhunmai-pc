@@ -11,15 +11,15 @@
         <!--   内容区域     -->
         <div class="homeMain w1200">
             <!--   我要买站---委托交易     -->
-            <buyWebsite></buyWebsite>
+            <buyWebsite :websitecategory="websitecategory"></buyWebsite>
             <!--   交易快报     -->
 <!--            <trading></trading>-->
             <!--   精选推荐----热门网站     -->
-            <hotWebsite></hotWebsite>
+            <hotWebsite :recommendwebsite="recommendwebsite" :hotwebsite="hotwebsite"></hotWebsite>
             <!--   常见问题     -->
             <problem></problem>
             <!--   金牌经纪人     -->
-            <broker></broker>
+            <broker :brokers="brokers"></broker>
             <!--   网站信息简介     -->
             <websiteInfo></websiteInfo>
         </div>
@@ -45,8 +45,28 @@
 
     export default {
         name: 'index',
+        data(){
+            return{
+                brokers:[],
+                hotwebsite:[],
+                recommendwebsite:[],
+                websitecategory:[],
+            }
+        },
         components:{
             headerTop,headCont,menuList,footContent,fixed,banner,buyWebsite,trading,hotWebsite,problem,broker,websiteInfo
+        },
+        methods:{
+            async getHomeInfo(){
+                let response = await this.$api.homepage()
+                this.brokers = response.broker // 经纪人
+                this.recommendwebsite = response.recommendwebsite  // 精选推荐
+                this.hotwebsite = response.hotwebsite // 热门网站
+                this.websitecategory = response.websitecategory  // 网站类型
+            }
+        },
+        mounted(){
+            this.getHomeInfo()
         }
     }
 </script>

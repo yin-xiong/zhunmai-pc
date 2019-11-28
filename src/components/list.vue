@@ -3,9 +3,9 @@
         <div class="goods-list">
             <ul v-if="lists.length > 0">
                 <li v-for="(item,index) in lists.slice((currentPage-1)*pagesize,currentPage*pagesize)">
-                    <router-link class="flex" to="/details">
+                    <router-link class="flex" :to=" '/details?id=' + item.id ">
                         <div class="goods-list-img">
-                            <img :src="item.goodsImg" :alt="item.title">
+                            <img :src="item.picture || nodataImg" :alt="item.title">
                         </div>
                         <div class="goods-list-ext">
                             <h2 class="goods-list-ext-top">
@@ -13,30 +13,30 @@
                                 {{item.title}}
                             </h2>
                             <div class="goods-list-ext-center">
-                                <span v-for="webStyle in item.websiteStyle">{{webStyle}}</span>
+                                <span v-for="webStyle in item.websitestyle">{{webStyle.title}}</span>
                             </div>
                             <div class="flex goods-list-ext-bottom">
-                                <div v-if="item.loveStation">
+                                <div v-if="item.lovestationpc">
                                     <p>爱站权重：</p>
                                     <p class="border1px fz0">
-                                        <img :src="item.loveImg" alt="爱站权重">
-                                        <span>{{item.loveStation}}</span>
+                                        <img :src="loveImg" alt="爱站权重">
+                                        <span>{{item.lovestationpc}}</span>
                                     </p>
                                 </div>
-                                <div v-if="item.stationMaster">
+                                <div v-if="item.stationmasterpc">
                                     <p>站长权重：</p>
                                     <p class="border1px fz0">
-                                        <img :src="item.stationMasterImg" alt="站长权重">
-                                        <span>{{item.stationMaster}}</span>
+                                        <img :src="stationMasterImg" alt="站长权重">
+                                        <span>{{item.stationmasterpc}}</span>
                                     </p>
                                 </div>
-                                <div v-if="item.dayIp">
+                                <div v-if="item.dayip">
                                     <p>日IP数：</p>
-                                    <p><span>{{item.dayIp}}</span></p>
+                                    <p><span>{{item.dayip}}</span></p>
                                 </div>
-                                <div v-if="item.baiduInclude">
+                                <div v-if="item.baiduinclude">
                                     <p>百度收录：</p>
-                                    <p><span>{{item.baiduInclude}}</span></p>
+                                    <p><span>{{item.baiduinclude}}</span></p>
                                 </div>
                                 <div v-if="item.income">
                                     <p>网站收入：</p>
@@ -47,11 +47,15 @@
                         <div class="goods-list-deal">
                             <div class="goods-list-deal-num">
                                 <p>交易编号:</p>
-                                <p>{{item.SerialNumber}}</p>
+                                <p>{{item.ordernum}}</p>
                             </div>
                             <div class="goods-list-deal-buy flex">
                                 <span class="goods-list-deal-buy-left"><i class="iconfont icon-renminbi"></i>{{item.price}}</span>
-                                <span class="goods-list-deal-buy-right">立即购买</span>
+                                <span class="goods-list-deal-buy-right">
+                                    <router-link to="">
+                                        立即购买
+                                    </router-link>
+                                </span>
                             </div>
                         </div>
                     </router-link>
@@ -81,6 +85,10 @@
                 totalCount:0,
                 currentPage:1, //初始页
                 pagesize:10,    //    每页的数据
+                nodataImg:require('../assets/image/icon/icon_web_default.jpg'),
+                loveImg:require('../assets/image/icon/icon_baidu.png'),
+                stationMasterImg:require('../assets/image/icon/icon_pr_zhi.png'),
+                /*
                 lists:[
                     {
                         goodsImg:require('../assets/image/icon/icon_web_default.jpg'),
@@ -137,7 +145,11 @@
                         income:'22000',price:'5000.01',SerialNumber:'AA01AXYY15390300BDCAY999',
                     }
                 ]
+                    */
             }
+        },
+        props:{
+            lists:Array
         },
         methods:{
             // 初始页currentPage、初始每页数据数pagesize和数据data
@@ -299,6 +311,20 @@
         border: 1px solid #FFCACC;
         font-size: 14px;
         margin-left: .3rem;
+        transition: all .4s;
+    }
+    .goods-list-deal-buy .goods-list-deal-buy-right:hover{
+        background-color: #FD4249;
+    }
+    .goods-list-deal-buy .goods-list-deal-buy-right:hover a{
+        color: #fff;
+    }
+    .goods-list-deal-buy .goods-list-deal-buy-right a{
+        display: block;
+        width: 100%;
+        height: 100%;
+        color: #FD4249;
+        transition: all .4s;
     }
     .page{
         height: 2.5rem;

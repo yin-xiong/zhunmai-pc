@@ -1,11 +1,14 @@
 <template>
     <div class="swiper-warp">
         <swiper :options="swiperOption">
-            <swiper-slide v-for="(item,index) in lists">
+            <swiper-slide v-for="(item,index) in aboutwebsitelist">
                 <div class="itemSwipers">
-                    <router-link to="">
-                        <h2 class="one-txt-cut"><i>{{item.name}}</i>{{item.title}}</h2>
-                        <p class="tac"><img :src="item.src" /></p>
+                    <router-link :to=" '/details?id=' + item.id ">
+                        <h2 class="one-txt-cut">
+                            <i>音乐视频</i>
+                            {{item.title}}
+                        </h2>
+                        <p class="tac"><img :src="item.picture || nodataImg" /></p>
                         <div class="flex">
                             <span class="goodsPrice"><i>￥</i>{{item.price}}</span>
                             <span class="checkDetails">查看详情></span>
@@ -26,6 +29,7 @@
         data(){
             return{
                 src:require('@/assets/image/banner/g1.png'),
+                nodataImg:require('@/assets/image/icon/icon_web_default.jpg'),
                 lists:[
                     {
                         src:require('@/assets/image/banner/g1.png'),
@@ -81,6 +85,9 @@
         components: {
             swiper,
             swiperSlide
+        },
+        props:{
+            aboutwebsitelist:Array
         }
     }
 </script>
@@ -111,6 +118,7 @@
     }
     .itemSwipers a p img{
         max-width: 100%;
+        max-height: 1.4rem;
     }
     .itemSwipers a div{
         justify-content: space-between;

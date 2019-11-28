@@ -13,24 +13,18 @@
                 </div>
                 <div class="lists">
                     <ul>
+
                         <li>
-                            <div><el-link :underline="false">行业门户</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
+                            <div v-for="(item,index) in websitecategory" v-if="index < 7">
+                                <el-link :underline="false">{{item.title}}</el-link>
+                            </div>
                         </li>
                         <li>
-                            <div><el-link :underline="false">行业门户</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
-                            <div><el-link :underline="false">休闲娱乐</el-link></div>
+                            <div v-for="(item,index) in websitecategory" v-if="index >= 7">
+                                <el-link :underline="false">{{item.title}}</el-link>
+                            </div>
                         </li>
+
                         <li>
                             <div><el-link :underline="false">3万以下</el-link></div>
                             <div><el-link :underline="false">3-5万</el-link></div>
@@ -90,6 +84,9 @@
 <script>
     export default {
         name: 'buyWebsite',
+        props:{
+            websitecategory:Array
+        }
     }
 </script>
 <style type="text/less" lang="less" scoped>
@@ -118,6 +115,7 @@
                                 width: 10%;
                                 a{
                                     font-size: .16rem;
+                                    white-space: nowrap;
                                 }
                             }
                         }

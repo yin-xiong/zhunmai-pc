@@ -4,7 +4,7 @@
               enter-active-class="animated fadeIn"
               style="animation-duration:.6s;animation-delay:.6s;animation-iteration-count:1;animation-fill-mode:both;"
       >
-            <router-view/>
+            <router-view :key="$route.fullPath" />
       </transition>
   </div>
 </template>

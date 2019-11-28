@@ -11,7 +11,7 @@
                     <el-input placeholder="请输入搜索内容" v-model="searchCont" class="input-with-select" />
                     <el-button slot="append" icon="el-icon-search"></el-button>
                 </div>
-                <div class="hot-search">
+                <div style="display: none;" class="hot-search">
                     <span class="color448BCB">热门搜索：</span>
                     <i>电影</i>
                     <i>B2B</i>

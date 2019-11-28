@@ -27,12 +27,18 @@
         name:'detail',
         data(){
             return{
-
+                detailsContent:[]
             }
         },
         components:{
             headerTop,headCont,menuList,footContent,fixed,pageTitle,detailsInfo
         },
+        methods:{
+
+        },
+        mounted(){
+
+        }
     }
 </script>
 <style type="text/less" lang="less" scoped>

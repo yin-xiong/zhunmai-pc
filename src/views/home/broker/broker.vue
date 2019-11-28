@@ -7,12 +7,12 @@
             </div>
 
             <swiper class="broker-info-right" :options="swiperOption">
-                <swiper-slide class="broker-list" v-for="(item,index) in list">
+                <swiper-slide class="broker-list" v-for="(item,index) in brokers">
                     <div class="inside-div flex">
-                        <el-image :src="item.src"></el-image>
+                        <el-image :src="src"></el-image>
                         <div>
-                            <h3>{{item.title}}</h3>
-                            <h4>{{item.identity}}</h4>
+                            <h3>{{item.name}}</h3>
+                            <h4>{{item.position}}</h4>
                             <p>QQ : {{item.qq}}</p>
                             <p>手机 : {{item.phone}}</p>
                         </div>
@@ -33,15 +33,8 @@
         name:'broker',
         data(){
             return{
-                list:[
-                    {src:require('@/assets/image/icon/kefu.png'),title:'祖华1',identity:"商务总监",qq:"2720088495",phone:'18048535730'},
-                    {src:require('@/assets/image/icon/kefu.png'),title:'祖华2',identity:"商务总监",qq:"2720088495",phone:'18048535730'},
-                    {src:require('@/assets/image/icon/kefu.png'),title:'祖华3',identity:"商务总监",qq:"2720088495",phone:'18048535730'},
-                    {src:require('@/assets/image/icon/kefu.png'),title:'祖华4',identity:"商务总监",qq:"2720088495",phone:'18048535730'},
-                    {src:require('@/assets/image/icon/kefu.png'),title:'祖华5',identity:"商务总监",qq:"2720088495",phone:'18048535730'},
-                    {src:require('@/assets/image/icon/kefu.png'),title:'祖华6',identity:"商务总监",qq:"2720088495",phone:'18048535730'},
-                    {src:require('@/assets/image/icon/kefu.png'),title:'祖华7',identity:"商务总监",qq:"2720088495",phone:'18048535730'}
-                ],
+                src:require('@/assets/image/icon/kefu.png'),
+                list:[],
                 swiperOption:{
                     paginationClickable: true,
                     notNextTick: true,
@@ -55,6 +48,9 @@
                     observeParents:true,
                 },
             }
+        },
+        props:{
+            brokers:Array
         }
     }
 </script>

@@ -6,13 +6,13 @@
                     <h2 class="fl"><i><img src="../../../assets/image/icon/h3.png" alt=""></i>HOT SITES</h2>
                 </div>
                 <div class="shuffling h400">
-                    <el-carousel :interval="30000" arrow="never" indicator-position="outside">
-                        <el-carousel-item v-for="item in 2" :key="item">
+                    <el-carousel v-if="recommendwebsite.length > 0" :interval="30000" arrow="never" indicator-position="outside">
+                        <el-carousel-item v-for="(item,index) in recommendwebsite" :key="item.index">
                             <div>
                                 <h2 class="one-txt-cut">
                                     <span>垂直行业</span>新闻的资讯站 新闻的资讯站新闻的资讯站爱站…
                                 </h2>
-                                <el-image :src="src"></el-image>
+                                <el-image :src="item.picture||src"></el-image>
                                 <div class="flex checkoutDetails">
                                     <span><i>￥</i>5000.00</span>
                                     <el-link :underline="false">查看详情</el-link>
@@ -20,6 +20,10 @@
                             </div>
                         </el-carousel-item>
                     </el-carousel>
+                    <div v-else class="tac">
+                        <el-image :src="nodata"></el-image>
+                        <p>暂无数据</p>
+                    </div>
                 </div>
             </div>
             <div class="hotWebsite-right">
@@ -28,78 +32,19 @@
                 </div>
                 <div class="h400 hotWebsite-right-list">
                     <div class="flex">
-                        <div class="hot-list">
+                        <div class="hot-list" v-for="(item,index) in hotwebsite">
                             <div class="inside-div">
-                                <h3 class="one-txt-cut"><i>影音游戏</i>股票配资网股票配资网股票配资网股票配资网…</h3>
-                                <el-image :src="src"></el-image>
-                                <p class="tac"><i>￥</i>4.6万</p>
+                                <h3 class="one-txt-cut">{{item.title}}</h3>
+                                <el-image :src="item.picture||src"></el-image>
+                                <p class="tac"><i>￥</i>{{item.price}}</p>
                             </div>
                             <div class="outside-div">
-                                <h4>[ 生活服务 ]</h4>
-                                <p><i>￥</i>3.30万</p>
+<!--                                <h4>[ 生活服务 ]</h4>-->
+                                <p><i>￥</i>{{item.price}}</p>
                                 <el-link :underline="false">查看详情</el-link>
                             </div>
                         </div>
-                        <div class="hot-list">
-                            <div class="inside-div">
-                                <h3 class="one-txt-cut"><i>影音游戏</i>股票配资网股票配资网股票配资网股票配资网…</h3>
-                                <el-image :src="src"></el-image>
-                                <p class="tac"><i>￥</i>4.6万</p>
-                            </div>
-                            <div class="outside-div">
-                                <h4>[ 生活服务 ]</h4>
-                                <p><i>￥</i>3.30万</p>
-                                <el-link :underline="false">查看详情</el-link>
-                            </div>
-                        </div>
-                        <div class="hot-list">
-                            <div class="inside-div">
-                                <h3 class="one-txt-cut"><i>影音游戏</i>股票配资网股票配资网股票配资网股票配资网…</h3>
-                                <el-image :src="src"></el-image>
-                                <p class="tac"><i>￥</i>4.6万</p>
-                            </div>
-                            <div class="outside-div">
-                                <h4>[ 生活服务 ]</h4>
-                                <p><i>￥</i>3.30万</p>
-                                <el-link :underline="false">查看详情</el-link>
-                            </div>
-                        </div>
-                        <div class="hot-list">
-                            <div class="inside-div">
-                                <h3 class="one-txt-cut"><i>影音游戏</i>股票配资网股票配资网股票配资网股票配资网…</h3>
-                                <el-image :src="src"></el-image>
-                                <p class="tac"><i>￥</i>4.6万</p>
-                            </div>
-                            <div class="outside-div">
-                                <h4>[ 生活服务 ]</h4>
-                                <p><i>￥</i>3.30万</p>
-                                <el-link :underline="false">查看详情</el-link>
-                            </div>
-                        </div>
-                        <div class="hot-list">
-                            <div class="inside-div">
-                                <h3 class="one-txt-cut"><i>影音游戏</i>股票配资网股票配资网股票配资网股票配资网…</h3>
-                                <el-image :src="src"></el-image>
-                                <p class="tac"><i>￥</i>4.6万</p>
-                            </div>
-                            <div class="outside-div">
-                                <h4>[ 生活服务 ]</h4>
-                                <p><i>￥</i>3.30万</p>
-                                <el-link :underline="false">查看详情</el-link>
-                            </div>
-                        </div>
-                        <div class="hot-list">
-                            <div class="inside-div">
-                                <h3 class="one-txt-cut"><i>影音游戏</i>股票配资网股票配资网股票配资网股票配资网…</h3>
-                                <el-image :src="src"></el-image>
-                                <p class="tac"><i>￥</i>4.6万</p>
-                            </div>
-                            <div class="outside-div">
-                                <h4>[ 生活服务 ]</h4>
-                                <p><i>￥</i>3.30万</p>
-                                <el-link :underline="false">查看详情</el-link>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -111,8 +56,13 @@
         name:"hotWebsite",
         data(){
             return{
-                src:require('../../../assets/image/banner/hot1.jpg'),
+                src:require('../../../assets/image/icon/noupload.jpg'),
+                nodata:require('../../../assets/image/icon/nodata.png'),
             }
+        },
+        props:{
+            recommendwebsite:Array,
+            hotwebsite:Array,
         }
     }
 </script>

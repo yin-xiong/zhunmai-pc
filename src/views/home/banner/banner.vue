@@ -22,12 +22,12 @@
                         <el-image :src="userImg"></el-image>{{uname}}, 欢迎您
                     </div>
                     <div class="websiteInfo">
-                        <h2><router-link to="/notice">网站公告</router-link></h2>
+                        <h2><span>网站公告</span></h2>
                         <roll></roll>
                     </div>
                 </div>
                 <div class="tradingOwn">
-                    <h2><i>自行交易</i>交易费低至2%</h2>
+                    <h2><i>自行交易</i>交易费低至{{seller}}%</h2>
 
                     <el-button v-if="flag" round>未登录，前往登录</el-button>
                     <el-button v-if="!flag" round>前往个人中心发布</el-button>
@@ -57,6 +57,7 @@
                 flag:true,
                 uname:'xxxxx',
                 userImg:require('@/assets/image/icon/user.png'),
+                seller:'2',
             }
         },
         methods:{

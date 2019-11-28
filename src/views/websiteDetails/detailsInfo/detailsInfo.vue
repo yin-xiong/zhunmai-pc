@@ -3,38 +3,39 @@
         <div class="flex detailsExtHead">
             <div class="detailsExtHead-left">
                 <div class="flex">
-                    <el-image class="detailsExtHead-left-Img" :src="src1"></el-image>
+                    <el-image class="detailsExtHead-left-Img" :src="details.picture"></el-image>
                     <div class="detailsExtHead-left-title">
-                        <h2 class="txt-cut">爱站权1 站长权1 百度秒收 微信迷其资讯网站出 爱站权1 站长权1 百度爱站权1 站长权1 百度秒收 微信迷其资讯网站出 爱站权1 站长权1 百度秒收 微信迷其资讯网站出 </h2>
+                        <h2 class="txt-cut">{{details.title}}</h2>
                         <div class="websiteStyle">
-                            <span>女性时尚</span>
-                            <span>游戏影音</span>
-                            <span>生活娱乐</span>
+                            <span v-for="(item,index) in details.websitestyle">{{item.title}}</span>
                         </div>
                         <div class="flex websiteLists">
                             <div>
                                 <h4>爱站权重：</h4>
-                                <el-image :src="src2"></el-image>
+                                <el-image :src="src2"></el-image>{{details.lovestationpc  || '// '}}
                             </div>
                             <div>
                                 <h4>站长权重：</h4>
-                                <el-image :src="src3"></el-image>
+                                <el-image :src="src3"></el-image>{{details.stationmasterpc  || '// '}}
                             </div>
                             <div>
                                 <h4>日IP数：</h4>
-                                <p>11</p>
+                                <p>{{details.dayip  || '// '}}</p>
                             </div>
                             <div>
                                 <h4>百度收录：</h4>
-                                <p>1000</p>
+                                <p>{{details.baiduinclude  || '// '}}</p>
                             </div>
                             <div>
                                 <h4>网站网址：</h4>
-                                <p>www.jingtui.cn</p>
+                                <p v-if="details.salestyle == 1">
+                                    <el-link style="color: #FF5D24;" :underline="false">联系客服</el-link>
+                                </p>
+                                <p v-else>{{details.website || '// '}}</p>
                             </div>
                             <div>
                                 <h4>网站收入：</h4>
-                                <p>//</p>
+                                <p>{{details.income || '// '}}</p>
                             </div>
                         </div>
                     </div>
@@ -42,22 +43,24 @@
                 <div class="goodsPrice flex">
                     <div>
                         <h3>出售价格</h3>
-                        <p><i>￥</i>5000.00</p>
+                        <p><i>￥</i>{{details.price}}</p>
                     </div>
                     <div>
-                        <h4>商品编号:SD154112842316</h4>
-                        <h5><i class="iconfont icon-jinbi"></i>平台服务费2%</h5>
+                        <h4>商品编号:{{details.ordernum}}</h4>
+                        <h5><i class="iconfont icon-jinbi"></i>平台服务费{{details.commission}}%</h5>
                     </div>
                 </div>
                 <div class="subBuy">
                     <button class="active" @click="goBuy">立即购买</button>
                     <button>联系客服</button>
+                    <!--
                     <span>
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#icon-shoucang"></use>
                         </svg>
                         收藏商品
                     </span>
+                    -->
                 </div>
                 <div class="ensure">
                     <span>承诺服务</span>
@@ -71,13 +74,13 @@
             <div class="detailsExtHead-right">
                 <div class="tac detailsExtHead-right-top">
                     <el-image :src="src4"></el-image>
-                    <h2>红玉</h2>
-                    <p>高级客服经理</p>
+                    <h2>{{details.brokerName}}</h2>
+                    <p>{{details.brokerPosition}}</p>
                 </div>
                 <div class="detailsExtHead-center">
-                    <p>QQ : 884487227</p>
-                    <p>手机 : 18482269869</p>
-                    <p>电话 : 028-83169351</p>
+                    <p>QQ : {{details.brokerQQ}}</p>
+                    <p>手机 : {{details.brokerPhone}}</p>
+                    <p v-if="details.brokerTelPhone">电话 : {{details.brokerTelPhone}}</p>
                 </div>
                 <div class="detailsExtHead-right-bottom">
                     <p class="flex">
@@ -86,36 +89,22 @@
                         <i></i>
                     </p>
                     <div class="flex">
-                        <router-link to="">
+                        <router-link
+                                v-for="(item,index) in broker"
+                                v-if="index < 4"
+                                to=""
+                        >
                             <svg class="icon" aria-hidden="true">
                                 <use xlink:href="#icon-qq"></use>
                             </svg>
-                            冠宇
-                        </router-link>
-                        <router-link to="">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qq"></use>
-                            </svg>
-                            冠宇
-                        </router-link>
-                        <router-link to="">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qq"></use>
-                            </svg>
-                            冠宇
-                        </router-link>
-                        <router-link to="">
-                            <svg class="icon" aria-hidden="true">
-                                <use xlink:href="#icon-qq"></use>
-                            </svg>
-                            冠宇
+                            {{item.name}}
                         </router-link>
                     </div>
                 </div>
             </div>
         </div>
         <div class="detailsExtFoot-main">
-            <div class="detailsExtFoot-main-active">
+            <div class="detailsExtFoot-main-active" id="counter">
                 <button
                         :class="isActive == item.index ? 'active' : '' "
                         v-for="(item,index) in activeName"
@@ -125,70 +114,75 @@
                 </button>
             </div>
             <div class="detailsExtFoot-main-info">
-                <div class="flex detailsExtFoot-main-info-goods">
+                <div class="flex detailsExtFoot-main-info-goods" id="productId0">
                     <div class="detailsExtFoot-main-info-goods-left">
                         <h3><img :src="srcAb1" alt=""></h3>
                         <div class="flex">
                             <div>
                                 <h4>上架时间</h4>
-                                <p>2018-11-19 18:48</p>
+                                <p>{{details.update_time}}</p>
                             </div>
                             <div>
                                 <h4>价格</h4>
-                                <p>5000-1万元</p>
+                                <p>{{details.price || '//'}}</p>
                             </div>
                             <div>
                                 <h4>网址</h4>
-                                <p>www.yohuo.cn</p>
+                                <p>{{details.website  || '//'}}</p>
                             </div>
                             <div>
-                                <h4>上架时间</h4>
-                                <p>2018-11-19 18:48</p>
+                                <h4>日IP</h4>
+                                <p>{{details.dayip || '//'}}</p>
                             </div>
                             <div>
-                                <h4>价格</h4>
-                                <p>5000-1万元</p>
+                                <h4>爱站权重</h4>
+                                <p>{{details.lovestationpc || '//'}}</p>
                             </div>
                             <div>
-                                <h4>网址</h4>
-                                <p>www.yohuo.cn</p>
+                                <h4>站长权重</h4>
+                                <p>{{details.stationmasterpc || '//'}}</p>
                             </div>
                             <div>
-                                <h4>上架时间</h4>
-                                <p>2018-11-19 18:48</p>
+                                <h4>百度收录量</h4>
+                                <p>{{details.baiduinclude || '//'}}</p>
                             </div>
                             <div>
-                                <h4>价格</h4>
-                                <p>5000-1万元</p>
+                                <h4>类型</h4>
+                                <p><span v-for="(item,index) in details.websitestyle">{{item.title+','}}</span></p>
                             </div>
                             <div>
-                                <h4>网址</h4>
-                                <p>www.yohuo.cn</p>
+                                <h4>广告联盟</h4>
+                                <p v-if="details.adsunion==0">百度联盟</p>
+                                <p v-else-if="details.adsunion==1">360联盟</p>
+                                <p v-else-if="details.adsunion==2">搜狗联盟</p>
+                                <p v-else-if="details.adsunion==3">其他</p>
+                                <p v-else>无</p>
                             </div>
                             <div>
-                                <h4>上架时间</h4>
-                                <p>2018-11-19 18:48</p>
+                                <h4>月收入</h4>
+                                <p>{{details.income || '//'}}</p>
                             </div>
                             <div>
-                                <h4>价格</h4>
-                                <p>5000-1万元</p>
+                                <h4>是否有手机网站</h4>
+                                <p>{{details.whetherwap || '//'}}</p>
                             </div>
                             <div>
-                                <h4>网址</h4>
-                                <p>www.yohuo.cn</p>
+                                <h4>网站程序（CMS）</h4>
+                                <p v-if="details.cms==0">PHPCMS V9</p>
+                                <p v-else-if="details.cms==1">帝国</p>
+                                <p v-else-if="details.cms==2">织梦</p>
+                                <p v-else-if="details.cms==3">自研</p>
+                                <p v-else-if="details.cms==4">其他</p>
+                                <p v-else>//</p>
                             </div>
                         </div>
                     </div>
                     <div class="detailsExtFoot-main-info-goods-right">
                         <h3><img :src="srcAb2" alt=""></h3>
-                        <div>
-                            <p>5年老站 排名好 中药材优草网</p>
-                            <p>诚心出售。</p>
-                            <p>域名、空间服务器全部转让。</p>
-                        </div>
+                        <div v-html="details.describe"></div>
                     </div>
                 </div>
-                <div class="buyingProcess">
+                <div class="buyingProcess" id="productId1">
                     <h2 class="flex">
                         <img :src="srcIcon_hetong" alt="">
                         <span>购买流程</span>
@@ -205,21 +199,22 @@
             </div>
         </div>
         <div class="recommended-problem">
-            <div class="recommended flex">
+            <div class="recommended flex" id="productId2">
                 <div class="w22">
                     <h2>相关推荐</h2>
                     <p>RECOMMENDATION</p>
-                    <router-link to="">更多></router-link>
+                    <router-link v-if="details.salestyle == 1" to="/officialBooking">更多></router-link>
+                    <router-link v-else to="/websiteTrading">更多></router-link>
                 </div>
                 <div class="w88 swiperWarp">
-                    <problemSwiperWarp></problemSwiperWarp>
+                    <problemSwiperWarp :aboutwebsitelist="aboutwebsitelist"></problemSwiperWarp>
                 </div>
             </div>
-            <div class="problem flex">
+            <div class="problem flex" id="productId3">
                 <div class="w22">
                     <h2>常见问题</h2>
                     <p>ASKED & QUESTIONS</p>
-                    <router-link to="">更多></router-link>
+                    <router-link to="/problems?id=1">更多></router-link>
                 </div>
                 <div class="w88">
                     <recommendSwiperWarp></recommendSwiperWarp>
@@ -238,7 +233,6 @@
         },
         data(){
             return{
-                src1:require('@/assets/image/icon/icon_web_entrust.jpg'),
                 src2:require('@/assets/image/icon/icon_baidu.png'),
                 src3:require('@/assets/image/icon/icon_pr_zhi.png'),
                 src4:require('@/assets/image/icon/icon_agent_head.png'),
@@ -246,6 +240,34 @@
                 srcAb2:require('@/assets/image/icon/icon_commodity_describe.png'),
                 srcIcon_hetong:require('@/assets/image/icon/icon_sales_process.png'),
                 isActive:0,
+                details:{
+                    salestyle:1,// 1代表官方出售  2代表普通代售
+                    picture:require('@/assets/image/icon/icon_web_entrust.jpg'),// 图片
+                    title:'111', // 标题
+                    websitestyle:[ // 网站类型
+                        {id:0,title:'女性时尚'},
+                        {id:1,title:'游戏影音'},
+                        {id:2,title:'生活娱乐'},
+                    ],
+                    lovestationpc:'1', // 爱站权重
+                    stationmasterpc:'2',// 站长权重
+                    dayip:'',// 日IP数
+                    baiduinclude:'',// 百度收录
+                    website:'',// 网站网址
+                    income:'',// 网站收入
+                    price:'',// 出售价格
+                    ordernum:'',// 商品编号
+                    commission:'',// 平台服务费
+
+                    brokerName:'', // 客服名称
+                    brokerPosition:'', // 客服职位
+                    brokerQQ:'', // 客服qq
+                    brokerPhone:'', // 客服手机
+                    brokerTelPhone:'', // 客服电话
+
+                    update_time:'', // 上架时间
+                    describe:'',
+                },
                 activeName:[
                     {title:"商品参数",index:0},
                     {title:"购买流程",index:1},
@@ -282,16 +304,53 @@
                         title:'网站购买成功'
                     }
                 ],
+                broker:[ // 更多经纪人
+                    {id:'0',title:"1111"},
+                    {id:'0',title:"222"},
+                    {id:'0',title:"333"},
+                    {id:'0',title:"444"},
+                    {id:'0',title:"555"},
+                    {id:'0',title:"1111"},
+                ],
+                aboutwebsitelist:[], // 相关推荐
             }
         },
         methods:{
             getActive(index){
                 this.isActive = index
+                console.log(index);
+
+                const returnEle = document.querySelector("#productId"+index);
+                console.log(returnEle);
+                if (!!returnEle) returnEle.scrollIntoView(true)
             },
             // 立即购买
             goBuy(){
                 this.$router.push({path:'/orderConfirmation'})
+            },
+            // 获取详情
+            async getWebsitedetails(){
+                console.log(this.$route.query.id);
+                let data = {
+                    id:this.$route.query.id
+                },
+                    response = await this.$api.websitedetails(data);
+                if(response.status == 200){
+                    console.log(response);
+                    this.details = response.list[0]
+                    this.details.brokerName = response.list[0].broker[0].name
+                    this.details.brokerPosition = response.list[0].broker[0].position
+                    this.details.brokerQQ = response.list[0].broker[0].qq
+                    this.details.brokerPhone = response.list[0].broker[0].phone
+                    this.details.brokerTelPhone = response.list[0].broker[0].telphone
+                    this.aboutwebsitelist = response.aboutwebsitelist
+                    this.broker = response.broker
+                    this.describe = response.describe
+                }
             }
+        },
+        mounted(){
+            this.getWebsitedetails()
         }
     }
 </script>
@@ -324,6 +383,7 @@
                         h2{
                             font-size: .18rem;
                             -webkit-line-clamp: 2;
+                            height: .54rem;
                         }
                         .websiteStyle{
                             margin: .09rem 0;
@@ -366,6 +426,7 @@
                             div{
                                 width: 33%;
                                 text-align: center;
+                                white-space: nowrap;
                                 h4{
                                     font-weight: normal;
                                 }
