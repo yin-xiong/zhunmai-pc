@@ -2,22 +2,82 @@
     <div class="selectConditions">
         <div class="selectConditions-list w1200">
             <div class="flex">
-                <span v-if="selectConditionsAll.length > 0" class="choseTitle">您已选择：</span>
+                <span
+                        v-if="
+                        getDatasArr.websitestyleArr.length > 0 ||
+                        getDatasArr.lovestationArr.length > 0  ||
+                        getDatasArr.stationmastersArr.length > 0 ||
+                        getDatasArr.priceArr.length > 0 ||
+                        getDatasArr.dayipArr.length > 0 ||
+                        getDatasArr.baiduincludeArr.length > 0 ||
+                        getDatasArr.incomeArr.length > 0
+                        "
+                        class="choseTitle">
+                    您已选择：</span>
                 <span v-else class="choseTitle">您未选择</span>
                 <div class="selectConditionsAll">
                     <button
-                            v-if="selectConditionsAll.length > 0"
-                            v-for="item in selectConditionsAll"
+                            v-if="getDatasArr.websitestyleArr.length > 0"
+                            v-for="item in getDatasArr.websitestyleArr"
                     >
                         {{item.title}}
-                        <i class="iconfont icon-guanbi"></i>
+                        <i class="iconfont icon-guanbi" @click="deletewebsitestyleArr(item.id,item.title)"></i>
+                    </button>
+
+                    <button
+                            v-if="getDatasArr.lovestationArr.length > 0 "
+                            v-for="(item,index) in getDatasArr.lovestationArr"
+
+                    >
+                        {{item.title}}--{{item.id}}
+                        <i class="iconfont icon-guanbi" @click="deletelovestationArr(item.id,item.title)"></i>
+                    </button>
+
+                    <button
+                            v-if="getDatasArr.stationmastersArr.length > 0"
+                            v-for="item in getDatasArr.stationmastersArr"
+                    >
+                        {{item.title}}--{{item.id}}
+                        <i class="iconfont icon-guanbi" @click="deletestationmastersArr(item.id,item.title)"></i>
+                    </button>
+
+                    <button
+                            v-if="getDatasArr.priceArr.length > 0"
+                            v-for="item in getDatasArr.priceArr"
+                    >
+                        {{item.title}}--{{item.id}}
+                        <i class="iconfont icon-guanbi" @click="deletepriceArr(item.id,item.title)"></i>
+                    </button>
+
+                    <button
+                            v-if="getDatasArr.dayipArr.length > 0"
+                            v-for="item in getDatasArr.dayipArr"
+                    >
+                        {{item.title}}--{{item.id}}
+                        <i class="iconfont icon-guanbi" @click="deletedayipArr(item.id,item.title)"></i>
+                    </button>
+
+                    <button
+                            v-if="getDatasArr.baiduincludeArr.length > 0"
+                            v-for="item in getDatasArr.baiduincludeArr"
+                    >
+                        {{item.title}}--{{item.id}}
+                        <i class="iconfont icon-guanbi" @click="deletebaiduincludeArr(item.id,item.title)"></i>
+                    </button>
+
+                    <button
+                            v-if="getDatasArr.incomeArr.length > 0"
+                            v-for="item in getDatasArr.incomeArr"
+                    >
+                        {{item.title}}--{{item.id}}
+                        <i class="iconfont icon-guanbi" @click="deleteincomeArr(item.id,item.title)"></i>
                     </button>
                 </div>
             </div>
             <div class="flex">
                 <span class="choseTitle">选择分类：</span>
                 <div class="choseClassification flex">
-                    <el-button style="margin: 0 0 0 12px;"
+                    <el-button style="margin: 0 0 0 12px;border-color: #fff;"
                                :class=" isChecked == checkFlag1 ? 'overflow notLimit bgcFF5D24': 'overflow notLimit'"
                                @click="checkedOrder"
                     >
@@ -40,7 +100,7 @@
                         </el-checkbox-button>
                     </el-checkbox-group>
                     <el-button
-                            v-if="fromData.IndustryClassification.length > 8"
+                            v-if="websitestyle.length > 8"
                             style="vertical-align: top;" class="more dib overflow notLimit"
                             @click="choseMore"
                     >
@@ -65,7 +125,11 @@
                 <span class="choseTitle">站长权重：</span>
                 <div class="choseList choseClassification flex">
 <!--                    <el-button class="overflow notLimit">不限</el-button>-->
-                    <el-radio-group v-model="seletChecked.selecStationmasters" v-for="(item,index) in fromData.stationmasters">
+                    <el-radio-group
+                            v-model="seletChecked.selecStationmasters"
+                            v-for="(item,index) in fromData.stationmasters"
+                            @change="stationSelect(item.index,item.title)"
+                    >
                         <el-radio-button :label="item.title"></el-radio-button>
                     </el-radio-group>
                 </div>
@@ -74,8 +138,12 @@
                 <span class="choseTitle">价  格：</span>
                 <div class="choseList choseClassification flex">
 <!--                    <el-button class="overflow notLimit">不限</el-button>-->
-                    <el-radio-group v-model="seletChecked.selecPrice">
-                        <el-radio-button v-for="(item,index) in fromData.price" :label="item.title"></el-radio-button>
+                    <el-radio-group
+                            v-for="(item,index) in fromData.price"
+                            v-model="seletChecked.selecPrice"
+                            @change="priceSelect(item.index,item.title,item.min,item.max)"
+                    >
+                        <el-radio-button  :label="item.title"></el-radio-button>
                     </el-radio-group>
                 </div>
             </div>
@@ -83,8 +151,12 @@
                 <span class="choseTitle">日IP数：</span>
                 <div class="choseList choseClassification flex">
 <!--                    <el-button class="overflow notLimit">不限</el-button>-->
-                    <el-radio-group v-model="seletChecked.selecDayip">
-                        <el-radio-button v-for="(item,index) in fromData.dayip" :label="item.title"></el-radio-button>
+                    <el-radio-group
+                            v-for="(item,index) in fromData.dayip"
+                            v-model="seletChecked.selecDayip"
+                            @change="dayipSelect(item.index,item.title)"
+                    >
+                        <el-radio-button  :label="item.title"></el-radio-button>
                     </el-radio-group>
                 </div>
             </div>
@@ -92,8 +164,12 @@
                 <span class="choseTitle">百度收录：</span>
                 <div class="choseList choseClassification flex">
 <!--                    <el-button class="overflow notLimit">不限</el-button>-->
-                    <el-radio-group v-model="seletChecked.selecBaiduinclude">
-                        <el-radio-button v-for="(item,index) in fromData.baiduinclude" :label="item.title"></el-radio-button>
+                    <el-radio-group
+                            v-for="(item,index) in fromData.baiduinclude"
+                            v-model="seletChecked.selecBaiduinclude"
+                            @change="baiduincludeSelect(item.index,item.title,item.min,item.max)"
+                    >
+                        <el-radio-button :label="item.title"></el-radio-button>
                     </el-radio-group>
                 </div>
             </div>
@@ -101,8 +177,12 @@
                 <span class="choseTitle">网站收入：</span>
                 <div class="choseList choseClassification flex">
 <!--                    <el-button class="overflow notLimit">不限</el-button>-->
-                    <el-radio-group v-model="seletChecked.selecIncome">
-                        <el-radio-button v-for="(item,index) in fromData.income" :label="item.title"></el-radio-button>
+                    <el-radio-group
+                            v-for="(item,index) in fromData.income"
+                            v-model="seletChecked.selecIncome"
+                            @change="incomeSelect($event,item.index,item.title,item.min,item.max)"
+                    >
+                        <el-radio-button  :label="item.title"></el-radio-button>
                     </el-radio-group>
                 </div>
                 <div class="flex subPrice">
@@ -119,7 +199,7 @@
                             v-model="fromData.webPrice2">
                         <i slot="prefix" class="iconfont icon-jinbi"></i>
                     </el-input>
-                    <el-button size="mini" plain>确定</el-button>
+                    <el-button @click="putIncome" size="mini" plain>确定</el-button>
                 </div>
             </div>
         </div>
@@ -146,25 +226,19 @@
                     selecPrice:'不限', // 已经选择过的--价格
                     selecDayip:'不限', // 已经选择过的--日IP数
                     selecBaiduinclude:'不限', // 已经选择过的--百度收录
-                    selecIncome:'不限', // 已经选择过的--百度收录
+                    selecIncome:'不限', // 已经选择过的--网站收入
+                },
+                getDatasArr:{
+                    websitestyleArr:[],// 网站分类临时array
+                    lovestationArr:[],// 爱站权重临时array
+                    stationmastersArr:[],// 站长权重临时array
+                    priceArr:[],// 价格临时array
+                    dayipArr:[],// 日IP数临时array
+                    baiduincludeArr:[],// 百度收录临时array
+                    incomeArr:[],// 网站收入临时array
                 },
                 fromData:{
-                    IndustryClassification:[  //  选择分类
-                        {index:1,name:'门户网站'},
-                        {index:2,name:'生活服务'},
-                        {index:3,name:'音乐视频'},
-                        {index:4,name:'游戏文章'},
-                        {index:5,name:'女性时尚'},
-                        {index:6,name:'教育培训'},
-                        {index:7,name:'医疗健康'},
-                        {index:8,name:'门户网站'},
-                        {index:9,name:'生活服务'},
-                        {index:10,name:'音乐视频'},
-                        {index:11,name:'游戏文章'},
-                        {index:12,name:'女性时尚'},
-                        {index:13,name:'教育培训'},
-                        {index:14,name:'医疗健康'},
-                    ],
+                    IndustryClassification:[],  //  选择分类
                     lovestation:[ // 爱站权重分类
                         {index:0,title:'不限'},
                         {index:1,title:'BDR0'},
@@ -184,44 +258,44 @@
                         {index:7,title:'BDR6'},
                     ],
                     price:[ // 价格
-                        {index:0,title:'不限'},
-                        {index:1,title:'0-1000元'},
-                        {index:2,title:'1000-5000元'},
-                        {index:3,title:'5000-1万元'},
-                        {index:4,title:'1万-3万'},
-                        {index:5,title:'3万-5万'},
-                        {index:6,title:'5万-10万'},
-                        {index:7,title:'10万以上'},
+                        {index:0,title:'不限',min:'',max:''},
+                        {index:1,title:'0-1000',min:'0',max:'1000'},
+                        {index:2,title:'1000-5000元',min:'1000',max:'5000',},
+                        {index:3,title:'5000-1万元',min:'5000',max:'10000',},
+                        {index:4,title:'1万-3万',min:'10000',max:'30000',},
+                        {index:5,title:'3万-5万',min:'30000',max:'50000',},
+                        {index:6,title:'5万-10万',min:'50000',max:'100000',},
+                        {index:7,title:'10万以上',min:'100000',max:'',},
                     ],
                     dayip:[ // 日IP数
-                        {index:0,title:'不限'},
-                        {index:1,title:'0-100IP'},
-                        {index:2,title:'100-500IP'},
-                        {index:3,title:'500-1000IP'},
-                        {index:4,title:'1000-3000IP'},
-                        {index:5,title:'3000-5000IP'},
-                        {index:6,title:'5000-10000'},
-                        {index:7,title:'>1万IP'},
+                        {index:0,title:'不限',min:'',max:''},
+                        {index:1,title:'0-100IP',min:'0',max:'100'},
+                        {index:2,title:'100-500IP',min:'100',max:'500'},
+                        {index:3,title:'500-1000IP',min:'500',max:'1000'},
+                        {index:4,title:'1000-3000IP',min:'1000',max:'3000'},
+                        {index:5,title:'3000-5000IP',min:'3000',max:'5000'},
+                        {index:6,title:'5000-10000',min:'5000',max:'10000'},
+                        {index:7,title:'>1万IP',min:'10000',max:''},
                     ],
                     baiduinclude:[ // 百度收录
-                        {index:0,title:'不限'},
-                        {index:1,title:'0-1万'},
-                        {index:2,title:'1-5万'},
-                        {index:3,title:'5-10万'},
-                        {index:4,title:'10-50万'},
-                        {index:5,title:'50-100万'},
-                        {index:6,title:'100-500万'},
-                        {index:7,title:'>500万'},
+                        {index:0,title:'不限',min:'',max:''},
+                        {index:1,title:'0-1万',min:'0',max:'10000'},
+                        {index:2,title:'1-5万',min:'10000',max:'50000'},
+                        {index:3,title:'5-10万',min:'50000',max:'100000'},
+                        {index:4,title:'10-50万',min:'100000',max:'500000'},
+                        {index:5,title:'50-100万',min:'500000',max:'1000000'},
+                        {index:6,title:'100-500万',min:'1000000',max:'5000000'},
+                        {index:7,title:'>500万',min:'5000000',max:''},
                     ],
                     income:[ // 网站收入
-                        {index:0,title:'不限'},
-                        {index:1,title:'0-1000'},
-                        {index:2,title:'1000-5000'},
-                        {index:3,title:'5000-1万'},
-                        {index:4,title:'1万以上'}
+                        {index:0,title:'不限',min:'',max:''},
+                        {index:1,title:'0-1000',min:'0',max:'1000'},
+                        {index:2,title:'1000-5000',min:'1000',max:'5000'},
+                        {index:3,title:'5000-1万',min:'5000',max:'10000'},
+                        {index:4,title:'1万以上',min:'10000',max:''}
                     ],
-                    webPrice1:'',
-                    webPrice2:'',
+                    webPrice1:0,
+                    webPrice2:0,
                 }
             }
         },
@@ -232,20 +306,27 @@
             // 不限选择分类
             checkedOrder(){
                 this.isChecked = true
-                this.seletChecked.selecIndustryClassification = []
+                this.seletChecked.selecIndustryClassification = this.getDatasArr.websitestyleArr = []
             },
             // 获取选择分类的类容
             getSelectClassification(id,title){
-                console.log(id +"----" + title);
-                // console.log(this.seletChecked.selecIndustryClassification);
                 this.isChecked = false
-                var data= {
-                    id:id,
-                    title:title
+                var data= { id,title }
+                var flag = 1,newArr = this.getDatasArr.websitestyleArr
+                newArr.forEach((item)=>{
+                    if(item.id == data.id){
+                        flag = 0;
+                        newArr.splice(newArr.indexOf(item),1)
+                        return;
+                    }
+                })
+                if(flag == 1 && newArr.length < 3){
+                    newArr.push(data);
                 }
-                this.choseOrderArr.push(data)
-                console.log(this.choseOrderArr);
-                this.selectConditionsAll.push(data)
+                console.log(newArr);
+                console.log(this.getDatasArr.websitestyleArr);
+                console.log(this.getDatasArr);
+
             },
             // 点击更多展示全部
             choseMore(){
@@ -259,9 +340,138 @@
 
             },
             // 爱站权重
-            loveSelect(index,title){
-                console.log(index + '~~~~~~'+title);
-            }
+            loveSelect(id,title){
+                var data = { id,title }
+                console.log(data);
+                this.getDatasArr.lovestationArr.pop(data)
+                this.getDatasArr.lovestationArr.push(data)
+                console.log(this.getDatasArr);
+                if(id == 0){
+                    this.getDatasArr.lovestationArr = []
+                }
+            },
+            // 站长权重
+            stationSelect(id,title){
+                var data = { id,title }
+                this.getDatasArr.stationmastersArr.pop(data)
+                this.getDatasArr.stationmastersArr.push(data)
+                console.log(this.getDatasArr);
+                if(id == 0){
+                    this.getDatasArr.stationmastersArr = []
+                }
+            },
+            // 价  格
+            priceSelect(id,title,min,max){
+                var data = { id,title,min,max }
+                this.getDatasArr.priceArr.pop(data)
+                this.getDatasArr.priceArr.push(data)
+                console.log(this.getDatasArr);
+                if(id == 0){
+                    this.getDatasArr.priceArr = []
+                }
+            },
+            // 日IP数
+            dayipSelect(id,title){
+                var data = { id, title }
+                this.getDatasArr.dayipArr.pop(data)
+                this.getDatasArr.dayipArr.push(data)
+                console.log(this.getDatasArr);
+                if(id == 0){
+                    this.getDatasArr.dayipArr = []
+                }
+            },
+            // 百度收录
+            baiduincludeSelect(id,title,min,max) {
+                var data = { id,title,min,max }
+                this.getDatasArr.baiduincludeArr.pop(data)
+                this.getDatasArr.baiduincludeArr.push(data)
+                console.log(this.getDatasArr);
+                if(id == 0){
+                    this.getDatasArr.baiduincludeArr = []
+                }
+            },
+            // 网站收入
+            incomeSelect(e,id,title,min,max) {
+                this.fromData.webPrice1 = ''
+                this.fromData.webPrice2 = ''
+                var data = { id,title,min,max }
+                this.getDatasArr.incomeArr.pop(data)
+                this.getDatasArr.incomeArr.push(data)
+                console.log(this.getDatasArr);
+                if(id == 0){
+                    this.getDatasArr.incomeArr = []
+                }
+            },
+            // 用户输入网站收入查询
+            putIncome(){
+                var p1 = this.fromData.webPrice1,p2 = this.fromData.webPrice2;
+                var rer = /^[0-9]*$/;
+                if( (rer.test(p1)) && (p2 > p1 )){
+                    this.seletChecked.selecIncome = ''
+                    this.getDatasArr.incomeArr = []
+                    this.getDatasArr.incomeArr.id = 5
+                    var data = {
+                        id:5,
+                        title:this.fromData.webPrice1+"--"+this.fromData.webPrice2+"元"
+                    }
+                    this.getDatasArr.incomeArr.push(data)
+                }else{
+                    this.showMsg('请输入正确的数字','error')
+                }
+            },
+            // 用户删除网站分类
+            deletewebsitestyleArr(id,title){
+                var arr = this.getDatasArr.websitestyleArr
+                arr.forEach((item)=>{
+                    if(item.id == id){
+                        console.log(item);
+                        arr.splice(arr.indexOf(item),1)
+                    }
+                })
+                var arrnull = []
+                for(var i = 0;i<arr.length;i++){
+                    arrnull.push(arr[i].id)
+                }
+                this.seletChecked.selecIndustryClassification = arrnull
+                console.log(this.seletChecked.selecIndustryClassification.length < 1);
+                if(this.seletChecked.selecIndustryClassification.length < 1){
+                    this.isChecked = true
+                    this.checkFlag1 = true
+                }
+            },
+            // 用户删除爱站选择
+            deletelovestationArr(id,title){
+                console.log(id);
+                console.log(title);
+                this.getDatasArr.lovestationArr = []
+                this.seletChecked.selecLovestation = '不限'
+            },
+            // 用户删除站长权重
+            deletestationmastersArr(id,title){
+                this.getDatasArr.stationmastersArr = []
+                this.seletChecked.selecStationmasters = '不限'
+            },
+            // 用户删除价格
+            deletepriceArr(id,title){
+                this.getDatasArr.priceArr = []
+                this.seletChecked.selecPrice = '不限'
+            },
+            // 用户删除日ip
+            deletedayipArr(id,title){
+                this.getDatasArr.dayipArr = []
+                this.seletChecked.selecDayip = '不限'
+            },
+            // 用户删除百度收录
+            deletebaiduincludeArr(id,title){
+                this.getDatasArr.baiduincludeArr = []
+                this.seletChecked.selecBaiduinclude = '不限'
+            },
+            // 用户删除网站收入
+            deleteincomeArr(id,title){
+                this.getDatasArr.incomeArr = []
+                this.seletChecked.selecIncome = '不限'
+            },
+
         },
         mounted(){
 

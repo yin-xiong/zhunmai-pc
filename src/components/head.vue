@@ -9,7 +9,7 @@
             <div class="searchContent">
                 <div class="searchToput">
                     <el-input placeholder="请输入搜索内容" v-model="searchCont" class="input-with-select" />
-                    <el-button slot="append" icon="el-icon-search"></el-button>
+                    <el-button @click="getSearch" slot="append" icon="el-icon-search"></el-button>
                 </div>
                 <div style="display: none;" class="hot-search">
                     <span class="color448BCB">热门搜索：</span>
@@ -39,6 +39,17 @@
                 src:require('@/assets/image/icon/logo.png'), // logo图片
                 searchCont:'',// 搜索内容
             }
+        },
+        methods:{
+            getSearch(){
+                if(this.searchCont){
+                    this.$router.push({path:'/websiteTrading',query:{key:this.searchCont}})
+                }
+            }
+        },
+        mounted(){
+            console.log(this.$route.query.key);
+            this.$route.query.key ? this.searchCont = this.$route.query.key:''
         }
     }
 </script>

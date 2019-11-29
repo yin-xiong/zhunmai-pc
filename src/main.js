@@ -1,12 +1,13 @@
 import Vue from "vue";
 import App from "./App.vue";
-  import router from "./router";
+import router from "./router";
 import store from "./store";
 import ElementUI from 'element-ui';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 Vue.use(VueAxios,axios);
 Vue.use(router);
+
 
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 Vue.use(VueAwesomeSwiper)
